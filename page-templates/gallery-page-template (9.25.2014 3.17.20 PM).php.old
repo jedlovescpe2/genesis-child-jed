@@ -1,0 +1,62 @@
+<?php
+/*Template Name: Gallery Page Template*/
+
+add_action('genesis_entry_footer','gallery_loop');
+function gallery_loop(){
+	echo '<div class="wrap gallery-slider">';
+	$query = new WP_Query(array('post_type'=>'gallery','orderby'=>'menu_order','order'=>'ASC','posts_per_page'=>-1));
+		if($query->have_posts()):
+			echo '<div id="slider" class="flexslider"><ul class="slides">';
+					while($query->have_posts()): $query->the_post();
+						echo '<li>';
+							the_post_thumbnail('featured-image-home');
+						echo '</li>';
+					endwhile;
+				echo '</ul>';
+			echo '</div>';
+		endif;
+	 wp_reset_query();
+	 
+	 $query = new WP_Query(array('post_type'=>'gallery','orderby'=>'menu_order','order'=>'ASC','posts_per_page'=>-1));
+		if($query->have_posts()):
+			echo '<div id="carousel" class="flexslider"><ul class="slides">';
+					while($query->have_posts()): $query->the_post();
+						echo '<li>';
+							the_post_thumbnail('home-thumbnail');
+						echo '</li>';
+					endwhile;
+				echo '</ul>';
+			echo '</div>';
+		endif;
+	 wp_reset_query(); ?>
+<script type="text/javascript">
+		$(document).ready(function($) {
+			$('#carousel').flexslider({
+			animation: "slide",
+			controlNav: false,
+			animationLoop: true,
+			slideshow: false,
+			itemWidth: 116.5,
+			itemMargin: 5,
+			minItems: 4,
+			maxItems: 9,
+			asNavFor: '#slider'
+		  });
+		   
+		  $('#slider').flexslider({
+			animation: "fade",
+			controlNav: false,
+			animationLoop: true,
+			slideshow: false,
+			sync: "#carousel"
+		  });
+		});
+</script>
+
+<?Php	 
+	echo '</div>';
+
+	
+	
+ }	
+genesis();
